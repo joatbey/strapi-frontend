@@ -6,3 +6,8 @@ out/
 *.log
 .vercel
 package-lock.json
+next-swc.darwin-arm64.node
+next-swc.darwin-x64.node
+next-swc.win32-x64.node
+next-swc.win32-arm64.node
+next-swc.linux-x64-gnu.nodeß

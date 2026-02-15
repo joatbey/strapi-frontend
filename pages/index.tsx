@@ -122,7 +122,7 @@ export default function Home() {
                   Strapi admin panelinden yeni makaleler ekleyebilirsiniz
                 </p>
                 <a 
-                  href={process.env.NEXT_PUBLIC_STRAPI_URL + '/admin'} 
+                  href="https://loved-book-43118cd8ad.strapiapp.com/admin" 
                   target="_blank"
                   style={styles.emptyButton}
                 >

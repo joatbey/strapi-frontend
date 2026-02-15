@@ -35,8 +35,8 @@ export default function ProjectDetailPage() {
 
     // Try slug first, fallback to documentId
     const fetchUrl = slug.includes('-') 
-      ? `http://localhost:1337/api/projects?filters[slug][$eq]=${slug}&populate=*`
-      : `http://localhost:1337/api/projects?filters[documentId][$eq]=${slug}&populate=*`
+      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[slug][$eq]=${slug}&populate=*`
+      : `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[documentId][$eq]=${slug}&populate=*`
 
     fetch(fetchUrl)
       .then(res => res.json())

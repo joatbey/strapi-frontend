@@ -39,8 +39,8 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch('http://localhost:1337/api/projects?populate=*&sort=publishedAt:desc').then(res => res.json()),
-      fetch('http://localhost:1337/api/categories').then(res => res.json())
+      fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?populate=*&sort=publishedAt:desc`).then(res => res.json()),
+      fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories`).then(res => res.json())
     ])
       .then(([projectsData, categoriesData]) => {
         console.log('Projects:', projectsData)

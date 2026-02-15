@@ -18,7 +18,7 @@ export default function Home() {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetch('http://localhost:1337/api/articles?populate=*')
+    fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles?populate=*`)
       .then(res => res.json())
       .then(data => {
         console.log('Strapi Response:', data)

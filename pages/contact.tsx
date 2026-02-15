@@ -19,7 +19,7 @@ export default function ContactPage() {
 
     try {
       // Strapi'ye POST isteği gönder
-      const response = await fetch('http://localhost:1337/api/contacts', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/contacts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

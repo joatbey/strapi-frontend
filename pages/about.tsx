@@ -17,7 +17,7 @@ export default function AboutPage() {
 
   useEffect(() => {
     // Strapi'den "about" slug'ına sahip page'i getir
-    fetch('http://localhost:1337/api/pages?filters[slug][$eq]=about&populate=*')
+    fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/pages?filters[slug][$eq]=about&populate=*`)
       .then(res => res.json())
       .then(data => {
         console.log('About Page Response:', data)

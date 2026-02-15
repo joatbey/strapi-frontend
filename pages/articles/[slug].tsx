@@ -26,8 +26,8 @@ export default function ArticleDetailPage() {
 
     // Try slug first, fallback to documentId
     const fetchUrl = slug.includes('-') 
-      ? `http://localhost:1337/api/articles?filters[slug][$eq]=${slug}&populate=*`
-      : `http://localhost:1337/api/articles?filters[documentId][$eq]=${slug}&populate=*`
+      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles?filters[slug][$eq]=${slug}&populate=*`
+      : `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles?filters[documentId][$eq]=${slug}&populate=*`
 
     fetch(fetchUrl)
       .then(res => res.json())

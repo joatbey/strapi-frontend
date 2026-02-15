@@ -9,7 +9,8 @@ interface Project {
   slug: string
   description: string
   content: string
-  status: 'planning' | 'active' | 'completed'
+  excerpt?: string
+  projectStatus: 'planning' | 'active' | 'completed'
   progress: number
   targetAmount?: number
   collectedAmount?: number
@@ -17,6 +18,7 @@ interface Project {
   endDate?: string
   beneficiaries?: number
   location?: string
+  readTime?: number
   publishedAt: string
 }
 
@@ -59,7 +61,7 @@ export default function ProjectsPage() {
     const matchesSearch = project.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          project.description?.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesCategory = selectedCategory === 'all'
-    const matchesStatus = selectedStatus === 'all' || project.status === selectedStatus
+    const matchesStatus = selectedStatus === 'all' || project.projectStatus === selectedStatus
     
     return matchesSearch && matchesCategory && matchesStatus
   })
@@ -122,14 +124,14 @@ export default function ProjectsPage() {
               <div style={styles.statCard}>
                 <div style={styles.statIcon}>✅</div>
                 <div style={styles.statNumber}>
-                  {projects.filter(p => p.status === 'completed').length}
+                  {projects.filter(p => p.projectStatus === 'completed').length}
                 </div>
                 <div style={styles.statLabel}>Tamamlanan</div>
               </div>
               <div style={styles.statCard}>
                 <div style={styles.statIcon}>🚀</div>
                 <div style={styles.statNumber}>
-                  {projects.filter(p => p.status === 'active').length}
+                  {projects.filter(p => p.projectStatus === 'active').length}
                 </div>
                 <div style={styles.statLabel}>Aktif Projeler</div>
               </div>
@@ -177,7 +179,7 @@ export default function ProjectsPage() {
                     ...(selectedStatus === 'active' ? styles.categoryButtonActive : {})
                   }}
                 >
-                  🚀 Aktif ({projects.filter(p => p.status === 'active').length})
+                  🚀 Aktif ({projects.filter(p => p.projectStatus === 'active').length})
                 </button>
                 <button
                   onClick={() => setSelectedStatus('completed')}
@@ -186,7 +188,7 @@ export default function ProjectsPage() {
                     ...(selectedStatus === 'completed' ? styles.categoryButtonActive : {})
                   }}
                 >
-                  ✅ Tamamlanan ({projects.filter(p => p.status === 'completed').length})
+                  ✅ Tamamlanan ({projects.filter(p => p.projectStatus === 'completed').length})
                 </button>
                 <button
                   onClick={() => setSelectedStatus('planning')}
@@ -195,7 +197,7 @@ export default function ProjectsPage() {
                     ...(selectedStatus === 'planning' ? styles.categoryButtonActive : {})
                   }}
                 >
-                  📋 Planlanan ({projects.filter(p => p.status === 'planning').length})
+                  📋 Planlanan ({projects.filter(p => p.projectStatus === 'planning').length})
                 </button>
               </div>
             </div>
@@ -323,7 +325,7 @@ export default function ProjectsPage() {
                             style={{
                               ...styles.progressFill,
                               width: `${project.progress}%`,
-                              backgroundColor: project.status === 'completed' ? '#6366f1' : '#10b981'
+                              backgroundColor: project.projectStatus === 'completed' ? '#6366f1' : '#10b981'
                             }}
                           ></div>
                         </div>

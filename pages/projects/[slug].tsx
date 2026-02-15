@@ -10,6 +10,7 @@ interface Project {
   slug: string
   description: string
   content: any
+  excerpt?: string
   projectStatus: 'planning' | 'active' | 'completed'
   progress: number
   targetAmount?: number
@@ -18,6 +19,7 @@ interface Project {
   endDate?: string
   beneficiaries?: number
   location?: string
+  readTime?: number
   publishedAt: string
 }
 
@@ -103,7 +105,7 @@ export default function ProjectDetailPage() {
         <Header />
 
         {/* Project Header */}
-        <project style={styles.project}>
+        <article style={styles.project}>
           <div style={styles.container}>
             {/* Breadcrumb */}
             <div style={styles.breadcrumb}>
@@ -260,7 +262,7 @@ export default function ProjectDetailPage() {
               </Link>
             </div>
           </div>
-        </project>
+        </article>
 
         <Footer />
       </div>
@@ -568,12 +570,7 @@ const styles = {
     textDecoration: 'none',
     transition: 'all 0.2s',
   },
-  projectMeta: {
-    display: 'flex',
-    gap: '15px',
-    flexWrap: 'wrap' as const,
-    marginBottom: '20px',
-  },
+
   statusBadge: {
     padding: '6px 16px',
     borderRadius: '20px',

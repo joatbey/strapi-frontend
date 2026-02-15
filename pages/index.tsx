@@ -72,8 +72,7 @@ export default function Home() {
                 <Link href="/projects" style={styles.navLink}>Projeler</Link>
                 <Link href="/about" style={styles.navLink}>Hakkımızda</Link>
                 <Link href="/contact" style={styles.navLink}>İletişim</Link>
-                <a href="http://localhost:1337/admin" target="_blank" style={styles.adminLink}>
-                  Admin Panel →
+<a href={`${process.env.NEXT_PUBLIC_STRAPI_URL}/admin`} target="_blank" style={styles.adminLink}>                  Admin Panel →
                 </a>
               </nav>
             </div>

@@ -103,7 +103,7 @@ export default function ProjectDetailPage() {
         <Header />
 
         {/* Project Header */}
-        <project style={styles.project}>
+        <article style={styles.project}>
           <div style={styles.container}>
             {/* Breadcrumb */}
             <div style={styles.breadcrumb}>
@@ -126,11 +126,6 @@ export default function ProjectDetailPage() {
                   year: 'numeric'
                 })}
               </span>
-              {project.readTime && (
-                <span style={styles.metaItem}>
-                  📖 {project.readTime} dakika okuma
-                </span>
-              )}
             </div>
 
             {/* project Description & Meta */}
@@ -260,7 +255,7 @@ export default function ProjectDetailPage() {
               </Link>
             </div>
           </div>
-        </project>
+        </article>
 
         <Footer />
       </div>

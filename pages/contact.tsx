@@ -337,7 +337,7 @@ function Header() {
             <Link href="/#projeler" style={styles.navLink}>Projeler</Link>
             <Link href="/about" style={styles.navLink}>Hakkımızda</Link>
             <Link href="/contact" style={styles.navLinkActive}>İletişim</Link>
-            <a href="http://localhost:1337/admin" target="_blank" style={styles.adminLink}>
+            <a href="https://loved-book-43118cd8ad.strapiapp.com/admin/" target="_blank" style={styles.adminLink}>
               Admin Panel →
             </a>
           </nav>

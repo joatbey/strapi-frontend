@@ -46,7 +46,7 @@ export default function Home() {
       <div style={styles.errorContainer}>
         <h1 style={styles.errorTitle}>⚠️ Bağlantı Hatası</h1>
         <p style={styles.errorText}>{error}</p>
-        <p style={styles.errorHint}>Strapi backend çalışıyor mu? (localhost:1337)</p>
+        <p style={styles.errorHint}>Strapi backend çalışıyor mu? ({process.env.NEXT_PUBLIC_STRAPI_URL})</p>
       </div>
     )
   }
@@ -122,7 +122,7 @@ export default function Home() {
                   Strapi admin panelinden yeni makaleler ekleyebilirsiniz
                 </p>
                 <a 
-                  href="http://localhost:1337/admin" 
+                  href={process.env.NEXT_PUBLIC_STRAPI_URL + '/admin'} 
                   target="_blank"
                   style={styles.emptyButton}
                 >

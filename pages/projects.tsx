@@ -247,7 +247,8 @@ export default function ProjectsPage() {
                     completed: { bg: '#6366f1', text: '✅ Tamamlandı', color: 'white' },
                     planning: { bg: '#f59e0b', text: '📋 Planlanıyor', color: 'white' }
                   }
-                  const status = statusConfig[project.projectStatus] || statusConfig.active
+                  
+                  const status = statusConfig[(project as any).projectStatus] || statusConfig.active
 
                   return (
                     <Link 

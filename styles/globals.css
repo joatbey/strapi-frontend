@@ -85,13 +85,23 @@ html {
 /* Small mobile screens (500px and below) */
 @media (max-width: 500px) {
   /* Hide home link in mobile menu to save space */
-  nav[style*="mobileNav"] a[href="/"] {
+  .mobile-home-link {
     display: none !important;
   }
 
-  /* Further reduce logo size */
+  /* Hide logo text, keep only emoji */
+  .logo-text {
+    display: none !important;
+  }
+
+  /* Adjust logo emoji size */
+  .logo-emoji {
+    font-size: 24px !important;
+  }
+
+  /* Adjust overall logo size */
   a[style*="logo"] {
-    font-size: 11px !important;
+    font-size: 20px !important;
   }
 
   /* Reduce container padding */

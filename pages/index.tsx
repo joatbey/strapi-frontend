@@ -35,7 +35,10 @@ export default function Home({ articles }: HomeProps) {
         <header style={styles.header}>
           <div style={styles.container}>
             <div style={styles.nav}>
-              <Link href="/" style={styles.logo}>🏔️ Z.D.A.</Link>
+              <Link href="/" style={styles.logo}>
+                <span className="logo-emoji">🏔️</span>
+                <span className="logo-text"> Z.D.A.</span>
+              </Link>
               
               {/* Mobile Menu Button */}
               <button 
@@ -58,7 +61,7 @@ export default function Home({ articles }: HomeProps) {
             {/* Mobile Navigation */}
             {mobileMenuOpen && (
               <nav style={styles.mobileNav}>
-                <Link href="/" style={{...styles.mobileNavLink, fontWeight: '600', color: '#2563eb'}}>Anasayfa</Link>
+                <Link href="/" style={{...styles.mobileNavLink, fontWeight: '600', color: '#2563eb'}} className="mobile-home-link">Anasayfa</Link>
                 <Link href="/projects" style={styles.mobileNavLink}>Projeler</Link>
                 <Link href="/about" style={styles.mobileNavLink}>Hakkımızda</Link>
                 <Link href="/contact" style={styles.mobileNavLink}>İletişim</Link>

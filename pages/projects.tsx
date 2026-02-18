@@ -211,7 +211,7 @@ export default function ProjectsPage({ projects, categories }: ProjectsPageProps
                   </button>
                 )}
                 <a 
-                  href="http://localhost:1337/admin/content-manager/collection-types/api::project.project" 
+                  href="https://loved-book-43118cd8ad.strapiapp.com/admin/content-manager/collection-types/api::project.project" 
                   target="_blank"
                   style={styles.adminButton}
                 >
@@ -232,97 +232,93 @@ export default function ProjectsPage({ projects, categories }: ProjectsPageProps
                   return (
                     <Link 
                       href={`/projects/${project.slug || project.documentId}`}
-                      style={{textDecoration: 'none'}}
                       key={project.id}
+                      style={{textDecoration: 'none', color: 'inherit'}}
                     >
-                    <article 
-                      key={project.id}
-                      style={{
-                        ...styles.projectCard,
-                        animationDelay: `${index * 0.1}s`
-                      }}
-                    >
-                      {/* Cover Image */}
-                      {project.coverImage && getImageUrl(project.coverImage) && (
-                        <div style={styles.cardImageContainer}>
-                          <img 
-                            src={getImageUrl(project.coverImage)!} 
-                            alt={project.title}
-                            style={styles.cardImage}
-                          />
-                        </div>
-                      )}
-                      
-                      <div style={styles.cardHeader}>
-                        <span style={{...styles.cardBadge, backgroundColor: status.bg}}>
-                          {status.text}
-                        </span>
-                        {project.location && (
-                          <span style={styles.cardLocation}>
-                            📍 {project.location}
-                          </span>
-                        )}
-                      </div>
-
-                      <h3 style={styles.cardTitle}>
-                        {project.title || 'Başlıksız Proje'}
-                      </h3>
-
-                      <p style={styles.cardExcerpt}>
-                        {project.description || 'Açıklama bulunmuyor.'}
-                      </p>
-
-                      {/* Beneficiaries & Target */}
-                      <div style={styles.projectInfo}>
-                        {project.beneficiaries && (
-                          <div style={styles.infoItem}>
-                            <span style={styles.infoIcon}>👥</span>
-                            <span style={styles.infoText}>{project.beneficiaries} kişi</span>
+                      <article 
+                        style={{
+                          ...styles.projectCard,
+                          animationDelay: `${index * 0.1}s`
+                        }}
+                      >
+                        {/* Cover Image */}
+                        {project.coverImage && getImageUrl(project.coverImage) && (
+                          <div style={styles.cardImageContainer}>
+                            <img 
+                              src={getImageUrl(project.coverImage)!} 
+                              alt={project.title}
+                              style={styles.cardImage}
+                            />
                           </div>
                         )}
-                        {project.targetAmount && (
-                          <div style={styles.infoItem}>
-                            <span style={styles.infoIcon}>💰</span>
-                            <span style={styles.infoText}>
-                              {project.collectedAmount?.toLocaleString('tr-TR')} / {project.targetAmount.toLocaleString('tr-TR')} ₺
+                        
+                        <div style={styles.cardHeader}>
+                          <span style={{...styles.cardBadge, backgroundColor: status.bg}}>
+                            {status.text}
+                          </span>
+                          {project.location && (
+                            <span style={styles.cardLocation}>
+                              📍 {project.location}
+                            </span>
+                          )}
+                        </div>
+
+                        <h3 style={styles.cardTitle}>
+                          {project.title || 'Başlıksız Proje'}
+                        </h3>
+
+                        <p style={styles.cardExcerpt}>
+                          {project.description || 'Açıklama bulunmuyor.'}
+                        </p>
+
+                        {/* Beneficiaries & Target */}
+                        <div style={styles.projectInfo}>
+                          {project.beneficiaries && (
+                            <div style={styles.infoItem}>
+                              <span style={styles.infoIcon}>👥</span>
+                              <span style={styles.infoText}>{project.beneficiaries} kişi</span>
+                            </div>
+                          )}
+                          {project.targetAmount && (
+                            <div style={styles.infoItem}>
+                              <span style={styles.infoIcon}>💰</span>
+                              <span style={styles.infoText}>
+                                {project.collectedAmount?.toLocaleString('tr-TR')} / {project.targetAmount.toLocaleString('tr-TR')} ₺
+                              </span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div style={styles.cardFooter}>
+                          <div style={styles.cardMeta}>
+                            <span style={styles.metaItem}>
+                              📅 {new Date(project.startDate || project.publishedAt).toLocaleDateString('tr-TR', {
+                                day: 'numeric',
+                                month: 'short'
+                              })}
                             </span>
                           </div>
-                        )}
-                      </div>
-
-                      <div style={styles.cardFooter}>
-                        <div style={styles.cardMeta}>
-                          <span style={styles.metaItem}>
-                            📅 {new Date(project.startDate || project.publishedAt).toLocaleDateString('tr-TR', {
-                              day: 'numeric',
-                              month: 'short'
-                            })}
+                          <span style={styles.cardLink}>
+                            Detayları Gör →
                           </span>
                         </div>
-                        <Link 
-                          href={`/projects/${project.slug || project.documentId}`}
-                          style={styles.cardLink}
-                        >
-                          Detayları Gör →
-                        </Link>
-                      </div>
 
-                      {/* Progress Bar */}
-                      <div style={styles.cardProgress}>
-                        <div style={styles.progressBar}>
-                          <div 
-                            style={{
-                              ...styles.progressFill,
-                              width: `${project.progress}%`,
-                              backgroundColor: project.projectStatus === 'completed' ? '#6366f1' : '#10b981'
-                            }}
-                          ></div>
+                        {/* Progress Bar */}
+                        <div style={styles.cardProgress}>
+                          <div style={styles.progressBar}>
+                            <div 
+                              style={{
+                                ...styles.progressFill,
+                                width: `${project.progress}%`,
+                                backgroundColor: project.projectStatus === 'completed' ? '#6366f1' : '#10b981'
+                              }}
+                            ></div>
+                          </div>
+                          <span style={styles.progressText}>
+                            %{project.progress} Tamamlandı
+                          </span>
                         </div>
-                        <span style={styles.progressText}>
-                          %{project.progress} Tamamlandı
-                        </span>
-                      </div>
-                    </article>
+                      </article>
                     </Link>
                   )
                 })}
@@ -952,7 +948,7 @@ const styles = {
 export const getStaticProps: GetStaticProps<ProjectsPageProps> = async () => {
   try {
     const [projectsRes, categoriesRes] = await Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?populate=image&sort=publishedAt:desc`),
+      fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?populate=*&sort=publishedAt:desc`),
       fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories`)
     ])
 

@@ -29,7 +29,7 @@ export default function AboutPage({ page }: AboutPageProps) {
             Strapi admin panelinden "about" slug'ı ile bir sayfa oluşturmalısınız.
           </p>
           <a 
-            href="http://localhost:1337/admin/content-manager/collection-types/api::page.page" 
+            href="https://loved-book-43118cd8ad.strapiapp.com/admin/content-manager/collection-types/api::page.page" 
             target="_blank"
             style={styles.adminButton}
           >

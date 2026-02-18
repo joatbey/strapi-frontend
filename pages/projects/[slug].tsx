@@ -81,7 +81,7 @@ export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
             <div style={styles.breadcrumb}>
               <Link href="/" style={styles.breadcrumbLink}>Ana Sayfa</Link>
               <span style={styles.breadcrumbSeparator}>/</span>
-              <Link href="/" style={styles.breadcrumbLink}>Projeler</Link>
+              <Link href="/projects" style={styles.breadcrumbLink}>Projeler</Link>
               <span style={styles.breadcrumbSeparator}>/</span>
               <span style={styles.breadcrumbCurrent}>{project.title}</span>
             </div>
@@ -235,7 +235,7 @@ export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
 
             {/* Navigation */}
             <div style={styles.projectNav}>
-              <Link href="/" style={styles.navButton}>
+              <Link href="/projects" style={styles.navButton}>
                 ← Tüm Projeler
               </Link>
               <Link href="/contact" style={styles.navButtonPrimary}>
@@ -744,8 +744,8 @@ export const getStaticProps: GetStaticProps<ProjectDetailPageProps> = async ({ p
     
     // Try slug first, fallback to documentId
     const fetchUrl = slug.includes('-') 
-      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[slug][$eq]=${slug}&populate=image`
-      : `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[documentId][$eq]=${slug}&populate=image`
+      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[slug][$eq]=${slug}&populate=*`
+      : `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[documentId][$eq]=${slug}&populate=*`
 
     const res = await fetch(fetchUrl)
     const data = await res.json()

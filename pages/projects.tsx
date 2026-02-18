@@ -210,13 +210,6 @@ export default function ProjectsPage({ projects, categories }: ProjectsPageProps
                     Aramayı Temizle
                   </button>
                 )}
-                <a 
-                  href="https://loved-book-43118cd8ad.strapiapp.com/admin/content-manager/collection-types/api::project.project" 
-                  target="_blank"
-                  style={styles.adminButton}
-                >
-                  Strapi'de Proje Ekle →
-                </a>
               </div>
             ) : (
               <div style={styles.projectsGrid}>
@@ -558,16 +551,6 @@ const styles = {
     fontWeight: '600' as const,
     borderBottom: '2px solid #2563eb',
     paddingBottom: '2px',
-  },
-  adminLink: {
-    backgroundColor: '#2563eb',
-    color: 'white',
-    padding: '8px 16px',
-    borderRadius: '6px',
-    textDecoration: 'none',
-    fontSize: '14px',
-    fontWeight: '600' as const,
-    transition: 'all 0.2s',
   },
   pageHeader: {
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -936,17 +919,6 @@ const styles = {
     fontSize: '13px',
     color: '#374151',
     fontWeight: '500' as const,
-  },
-  adminButton: {
-    display: 'inline-block',
-    backgroundColor: '#2563eb',
-    color: 'white',
-    padding: '12px 24px',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    fontSize: '14px',
-    fontWeight: '600' as const,
-    marginTop: '15px',
   },
 }
 

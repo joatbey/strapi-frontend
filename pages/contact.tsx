@@ -493,16 +493,6 @@ const styles = {
     borderBottom: '2px solid #2563eb',
     paddingBottom: '2px',
   },
-  adminLink: {
-    backgroundColor: '#2563eb',
-    color: 'white',
-    padding: '8px 16px',
-    borderRadius: '6px',
-    textDecoration: 'none',
-    fontSize: '14px',
-    fontWeight: '600' as const,
-    transition: 'all 0.2s',
-  },
   pageHeader: {
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     color: 'white',

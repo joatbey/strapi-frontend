@@ -28,13 +28,6 @@ export default function AboutPage({ page }: AboutPageProps) {
           <p style={styles.emptyText}>
             Strapi admin panelinden "about" slug'ı ile bir sayfa oluşturmalısınız.
           </p>
-          <a 
-            href="https://loved-book-43118cd8ad.strapiapp.com/admin/content-manager/collection-types/api::page.page" 
-            target="_blank"
-            style={styles.adminButton}
-          >
-            Strapi'de Sayfa Oluştur →
-          </a>
           <Link href="/" style={styles.backLink}>
             ← Anasayfaya Dön
           </Link>
@@ -287,17 +280,6 @@ const styles = {
     maxWidth: '500px',
     margin: '0 auto 30px',
   },
-  adminButton: {
-    display: 'inline-block',
-    backgroundColor: '#2563eb',
-    color: 'white',
-    padding: '14px 28px',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    fontWeight: '600' as const,
-    fontSize: '16px',
-    marginBottom: '20px',
-  },
   backLink: {
     display: 'block',
     color: '#6b7280',
@@ -388,16 +370,6 @@ const styles = {
     fontWeight: '600' as const,
     borderBottom: '2px solid #2563eb',
     paddingBottom: '2px',
-  },
-  adminLink: {
-    backgroundColor: '#2563eb',
-    color: 'white',
-    padding: '8px 16px',
-    borderRadius: '6px',
-    textDecoration: 'none',
-    fontSize: '14px',
-    fontWeight: '600' as const,
-    transition: 'all 0.2s',
   },
   pageHeader: {
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',

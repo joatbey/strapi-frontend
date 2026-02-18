@@ -34,7 +34,6 @@ body {
 }
 
 /* Hover effects */
-a[style*="adminLink"]:hover,
 a[style*="emptyButton"]:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
@@ -74,12 +73,6 @@ html {
   /* Adjust logo size for mobile */
   a[style*="logo"] {
     font-size: 12px !important;
-  }
-
-  /* Hide admin panel buttons on mobile */
-  a[style*="adminLink"],
-  a[style*="mobileAdminLink"] {
-    display: none !important;
   }
 
   /* Adjust hero title for mobile */

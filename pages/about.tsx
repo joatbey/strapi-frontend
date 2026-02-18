@@ -36,7 +36,7 @@ export default function AboutPage({ page }: AboutPageProps) {
             Strapi'de Sayfa Oluştur →
           </a>
           <Link href="/" style={styles.backLink}>
-            ← Ana Sayfaya Dön
+            ← Anasayfaya Dön
           </Link>
         </div>
         <Footer />
@@ -62,7 +62,7 @@ export default function AboutPage({ page }: AboutPageProps) {
           <div style={styles.container}>
             <h1 style={styles.pageTitle}>{page.title}</h1>
             <div style={styles.breadcrumb}>
-              <Link href="/" style={styles.breadcrumbLink}>Ana Sayfa</Link>
+              <Link href="/" style={styles.breadcrumbLink}>Anasayfa</Link>
               <span style={styles.breadcrumbSeparator}>/</span>
               <span style={styles.breadcrumbCurrent}>{page.title}</span>
             </div>
@@ -164,7 +164,7 @@ function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean
 
           {/* Desktop Navigation */}
           <nav style={styles.navLinks}>
-            <Link href="/" style={styles.navLink}>Ana Sayfa</Link>
+            <Link href="/" style={styles.navLink}>Anasayfa</Link>
             <Link href="/projects" style={styles.navLink}>Projeler</Link>
             <Link href="/about" style={styles.navLinkActive}>Hakkımızda</Link>
             <Link href="/contact" style={styles.navLink}>İletişim</Link>
@@ -174,7 +174,7 @@ function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <nav style={styles.mobileNav}>
-            <Link href="/" style={styles.mobileNavLink}>Ana Sayfa</Link>
+            <Link href="/" style={styles.mobileNavLink}>Anasayfa</Link>
             <Link href="/projects" style={styles.mobileNavLink}>Projeler</Link>
             <Link href="/about" style={{...styles.mobileNavLink, fontWeight: '600', color: '#2563eb'}}>Hakkımızda</Link>
             <Link href="/contact" style={styles.mobileNavLink}>İletişim</Link>

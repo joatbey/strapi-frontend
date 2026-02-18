@@ -48,7 +48,7 @@ export default function Home({ articles }: HomeProps) {
 
               {/* Desktop Navigation */}
               <nav style={styles.navLinks}>
-                <Link href="/" style={{...styles.navLink, fontWeight: '600', color: '#2563eb'}}>Ana Sayfa</Link>
+                <Link href="/" style={{...styles.navLink, fontWeight: '600', color: '#2563eb'}}>Anasayfa</Link>
                 <Link href="/projects" style={styles.navLink}>Projeler</Link>
                 <Link href="/about" style={styles.navLink}>Hakkımızda</Link>
                 <Link href="/contact" style={styles.navLink}>İletişim</Link>
@@ -58,7 +58,7 @@ export default function Home({ articles }: HomeProps) {
             {/* Mobile Navigation */}
             {mobileMenuOpen && (
               <nav style={styles.mobileNav}>
-                <Link href="/" style={{...styles.mobileNavLink, fontWeight: '600', color: '#2563eb'}}>Ana Sayfa</Link>
+                <Link href="/" style={{...styles.mobileNavLink, fontWeight: '600', color: '#2563eb'}}>Anasayfa</Link>
                 <Link href="/projects" style={styles.mobileNavLink}>Projeler</Link>
                 <Link href="/about" style={styles.mobileNavLink}>Hakkımızda</Link>
                 <Link href="/contact" style={styles.mobileNavLink}>İletişim</Link>

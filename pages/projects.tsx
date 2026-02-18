@@ -83,7 +83,7 @@ export default function ProjectsPage({ projects, categories }: ProjectsPageProps
               İnsanlara dokunduğumuz her proje, bir umut köprüsü
             </p>
             <div style={styles.breadcrumb}>
-              <Link href="/" style={styles.breadcrumbLink}>Ana Sayfa</Link>
+              <Link href="/" style={styles.breadcrumbLink}>Anasayfa</Link>
               <span style={styles.breadcrumbSeparator}>/</span>
               <span style={styles.breadcrumbCurrent}>Projeler</span>
             </div>
@@ -372,7 +372,7 @@ function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean
 
           {/* Desktop Navigation */}
           <nav style={styles.navLinks}>
-            <Link href="/" style={styles.navLink}>Ana Sayfa</Link>
+            <Link href="/" style={styles.navLink}>Anasayfa</Link>
             <Link href="/projects" style={styles.navLinkActive}>Projeler</Link>
             <Link href="/about" style={styles.navLink}>Hakkımızda</Link>
             <Link href="/contact" style={styles.navLink}>İletişim</Link>
@@ -382,7 +382,7 @@ function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <nav style={styles.mobileNav}>
-            <Link href="/" style={styles.mobileNavLink}>Ana Sayfa</Link>
+            <Link href="/" style={styles.mobileNavLink}>Anasayfa</Link>
             <Link href="/projects" style={{...styles.mobileNavLink, fontWeight: '600', color: '#2563eb'}}>Projeler</Link>
             <Link href="/about" style={styles.mobileNavLink}>Hakkımızda</Link>
             <Link href="/contact" style={styles.mobileNavLink}>İletişim</Link>

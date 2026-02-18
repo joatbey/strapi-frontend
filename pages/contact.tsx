@@ -96,7 +96,7 @@ export default function ContactPage() {
               Sorularınız, önerileriniz veya destek talebiniz için bize ulaşın
             </p>
             <div style={styles.breadcrumb}>
-              <Link href="/" style={styles.breadcrumbLink}>Ana Sayfa</Link>
+              <Link href="/" style={styles.breadcrumbLink}>Anasayfa</Link>
               <span style={styles.breadcrumbSeparator}>/</span>
               <span style={styles.breadcrumbCurrent}>İletişim</span>
             </div>
@@ -295,10 +295,10 @@ export default function ContactPage() {
                 <div style={styles.socialCard}>
                   <h3 style={styles.infoTitle}>Sosyal Medya</h3>
                   <div style={styles.socialLinks}>
-                    <a href="#" style={styles.socialLink}>📘 Facebook</a>
-                    <a href="#" style={styles.socialLink}>📷 Instagram</a>
-                    <a href="#" style={styles.socialLink}>🐦 Twitter</a>
-                    <a href="#" style={styles.socialLink}>💼 LinkedIn</a>
+                    <a href="https://facebook.com/zirvedayanisma" target="_blank" rel="noopener noreferrer" style={styles.socialLink}>📘 Facebook</a>
+                    <a href="https://instagram.com/zirvedayanisma" target="_blank" rel="noopener noreferrer" style={styles.socialLink}>📷 Instagram</a>
+                    <a href="https://twitter.com/zirvedayanisma" target="_blank" rel="noopener noreferrer" style={styles.socialLink}>🐦 Twitter</a>
+                    <a href="https://linkedin.com/company/zirvedayanisma" target="_blank" rel="noopener noreferrer" style={styles.socialLink}>💼 LinkedIn</a>
                   </div>
                 </div>
               </aside>
@@ -345,7 +345,7 @@ function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean
 
           {/* Desktop Navigation */}
           <nav style={styles.navLinks}>
-            <Link href="/" style={styles.navLink}>Ana Sayfa</Link>
+            <Link href="/" style={styles.navLink}>Anasayfa</Link>
             <Link href="/projects" style={styles.navLink}>Projeler</Link>
             <Link href="/about" style={styles.navLink}>Hakkımızda</Link>
             <Link href="/contact" style={styles.navLinkActive}>İletişim</Link>
@@ -355,7 +355,7 @@ function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <nav style={styles.mobileNav}>
-            <Link href="/" style={styles.mobileNavLink}>Ana Sayfa</Link>
+            <Link href="/" style={styles.mobileNavLink}>Anasayfa</Link>
             <Link href="/projects" style={styles.mobileNavLink}>Projeler</Link>
             <Link href="/about" style={styles.mobileNavLink}>Hakkımızda</Link>
             <Link href="/contact" style={{...styles.mobileNavLink, fontWeight: '600', color: '#2563eb'}}>İletişim</Link>

@@ -53,7 +53,7 @@ export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
             Aradığınız proje mevcut değil veya kaldırılmış olabilir.
           </p>
           <Link href="/" style={styles.backButton}>
-            ← Ana Sayfaya Dön
+            ← Anasayfaya Dön
           </Link>
         </div>
         <Footer />
@@ -79,7 +79,7 @@ export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
           <div style={styles.container}>
             {/* Breadcrumb */}
             <div style={styles.breadcrumb}>
-              <Link href="/" style={styles.breadcrumbLink}>Ana Sayfa</Link>
+              <Link href="/" style={styles.breadcrumbLink}>Anasayfa</Link>
               <span style={styles.breadcrumbSeparator}>/</span>
               <Link href="/projects" style={styles.breadcrumbLink}>Projeler</Link>
               <span style={styles.breadcrumbSeparator}>/</span>
@@ -270,7 +270,7 @@ function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean
 
           {/* Desktop Navigation */}
           <nav style={styles.navLinks}>
-            <Link href="/" style={styles.navLink}>Ana Sayfa</Link>
+            <Link href="/" style={styles.navLink}>Anasayfa</Link>
             <Link href="/projects" style={styles.navLink}>Projeler</Link>
             <Link href="/about" style={styles.navLink}>Hakkımızda</Link>
             <Link href="/contact" style={styles.navLink}>İletişim</Link>
@@ -280,7 +280,7 @@ function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <nav style={styles.mobileNav}>
-            <Link href="/" style={styles.mobileNavLink}>Ana Sayfa</Link>
+            <Link href="/" style={styles.mobileNavLink}>Anasayfa</Link>
             <Link href="/projects" style={styles.mobileNavLink}>Projeler</Link>
             <Link href="/about" style={styles.mobileNavLink}>Hakkımızda</Link>
             <Link href="/contact" style={styles.mobileNavLink}>İletişim</Link>

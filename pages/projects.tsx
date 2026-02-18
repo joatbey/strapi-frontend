@@ -952,7 +952,7 @@ const styles = {
 export const getStaticProps: GetStaticProps<ProjectsPageProps> = async () => {
   try {
     const [projectsRes, categoriesRes] = await Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?populate=*&sort=publishedAt:desc`),
+      fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?populate=image&sort=publishedAt:desc`),
       fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories`)
     ])
 
@@ -964,7 +964,7 @@ export const getStaticProps: GetStaticProps<ProjectsPageProps> = async () => {
         projects: projectsData.data || [],
         categories: categoriesData.data || [],
       },
-      revalidate: 60, // Revalidate every 60 seconds (ISR)
+      revalidate: 300, // Revalidate every 5 minutes (ISR)
     }
   } catch (error) {
     console.error('Error fetching data:', error)
@@ -973,7 +973,7 @@ export const getStaticProps: GetStaticProps<ProjectsPageProps> = async () => {
         projects: [],
         categories: [],
       },
-      revalidate: 60,
+      revalidate: 300, // Revalidate every 5 minutes (ISR)
     }
   }
 }

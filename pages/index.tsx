@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 
@@ -12,45 +13,12 @@ interface Article {
   readTime?: number
 }
 
-export default function Home() {
-  const [articles, setArticles] = useState<Article[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+interface HomeProps {
+  articles: Article[]
+}
+
+export default function Home({ articles }: HomeProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles?populate=*`)
-      .then(res => res.json())
-      .then(data => {
-        console.log('Strapi Response:', data)
-        setArticles(data.data || [])
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Error:', err)
-        setError(err.message)
-        setLoading(false)
-      })
-  }, [])
-
-  if (loading) {
-    return (
-      <div style={styles.loadingContainer}>
-        <div style={styles.spinner}></div>
-        <p style={styles.loadingText}>İçerikler yükleniyor...</p>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div style={styles.errorContainer}>
-        <h1 style={styles.errorTitle}>⚠️ Bağlantı Hatası</h1>
-        <p style={styles.errorText}>{error}</p>
-        <p style={styles.errorHint}>Strapi backend çalışıyor mu? ({process.env.NEXT_PUBLIC_STRAPI_URL})</p>
-      </div>
-    )
-  }
 
   return (
     <>
@@ -532,4 +500,27 @@ const styles = {
     color: '#9ca3af',
     fontSize: '14px',
   },
+}
+
+// Server-side data fetching (SSG with ISR)
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles`)
+    const data = await res.json()
+
+    return {
+      props: {
+        articles: data.data || [],
+      },
+      revalidate: 300, // Revalidate every 5 minutes (ISR)
+    }
+  } catch (error) {
+    console.error('Error fetching articles:', error)
+    return {
+      props: {
+        articles: [],
+      },
+      revalidate: 300,
+    }
+  }
 }

@@ -606,8 +606,8 @@ export const getStaticProps: GetStaticProps<ArticleDetailPageProps> = async ({ p
     const slug = params?.slug as string
     
     const fetchUrl = slug.includes('-') 
-      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles?filters[slug][$eq]=${slug}&populate=*`
-      : `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles?filters[documentId][$eq]=${slug}&populate=*`
+      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles?filters[slug][$eq]=${slug}&populate=image`
+      : `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles?filters[documentId][$eq]=${slug}&populate=image`
 
     const res = await fetch(fetchUrl)
     const data = await res.json()
@@ -622,7 +622,7 @@ export const getStaticProps: GetStaticProps<ArticleDetailPageProps> = async ({ p
       props: {
         article: data.data[0],
       },
-      revalidate: 60,
+      revalidate: 300, // Revalidate every 5 minutes (ISR)
     }
   } catch (error) {
     console.error('Error fetching article:', error)

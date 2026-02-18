@@ -744,8 +744,8 @@ export const getStaticProps: GetStaticProps<ProjectDetailPageProps> = async ({ p
     
     // Try slug first, fallback to documentId
     const fetchUrl = slug.includes('-') 
-      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[slug][$eq]=${slug}&populate=*`
-      : `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[documentId][$eq]=${slug}&populate=*`
+      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[slug][$eq]=${slug}&populate=image`
+      : `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[documentId][$eq]=${slug}&populate=image`
 
     const res = await fetch(fetchUrl)
     const data = await res.json()
@@ -760,7 +760,7 @@ export const getStaticProps: GetStaticProps<ProjectDetailPageProps> = async ({ p
       props: {
         project: data.data[0],
       },
-      revalidate: 60, // Revalidate every 60 seconds
+      revalidate: 300, // Revalidate every 5 minutes (ISR)
     }
   } catch (error) {
     console.error('Error fetching project:', error)

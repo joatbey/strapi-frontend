@@ -4,9 +4,16 @@
   padding: 0;
 }
 
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 /* Animations */
@@ -97,6 +104,7 @@ html {
 
   /* Stats responsive */
   div[style*="heroStats"] {
-    gap: 30px !important;
+    gap: 20px !important;
+    padding: 0 10px !important;
   }
 }

@@ -359,7 +359,7 @@ function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean
     <header style={styles.header}>
       <div style={styles.container}>
         <div style={styles.nav}>
-          <Link href="/" style={styles.logo}>🏔️</Link>
+          <Link href="/" style={styles.logo}>🏔️ Z.D.A.</Link>
           
           {/* Mobile Menu Button */}
           <button 
@@ -496,8 +496,14 @@ const styles = {
   logo: {
     fontSize: '20px',
     fontWeight: '800' as const,
-    color: '#1f2937',
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
     textDecoration: 'none',
+    display: 'inline-flex',
+    alignItems: 'center',
+    lineHeight: '1',
   } as React.CSSProperties,
   mobileMenuButton: {
     display: 'none',

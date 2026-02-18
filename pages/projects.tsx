@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 
@@ -20,6 +21,10 @@ interface Project {
   location?: string
   readTime?: number
   publishedAt: string
+  coverImage?: {
+    url: string
+    formats?: any
+  }
 }
 
 interface Category {
@@ -28,34 +33,24 @@ interface Category {
   slug: string
 }
 
-export default function ProjectsPage() {
-  const [projects, setProjects] = useState<Project[]>([])
-  const [categories, setCategories] = useState<Category[]>([])
+// Helper function to get image URL
+const getImageUrl = (image: any) => {
+  if (!image) return null
+  const url = image.url || image.formats?.medium?.url || image.formats?.small?.url || image.formats?.thumbnail?.url
+  if (!url) return null
+  return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`
+}
+
+interface ProjectsPageProps {
+  projects: Project[]
+  categories: Category[]
+}
+
+export default function ProjectsPage({ projects, categories }: ProjectsPageProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [selectedStatus, setSelectedStatus] = useState<string>('all')
   const [searchQuery, setSearchQuery] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?populate=*&sort=publishedAt:desc`).then(res => res.json()),
-      fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories`).then(res => res.json())
-    ])
-      .then(([projectsData, categoriesData]) => {
-        console.log('Projects:', projectsData)
-        console.log('Categories:', categoriesData)
-        setProjects(projectsData.data || [])
-        setCategories(categoriesData.data || [])
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Error:', err)
-        setError(err.message)
-        setLoading(false)
-      })
-  }, [])
 
   // Filter projects by status, category and search
   const filteredProjects = projects.filter(project => {
@@ -66,24 +61,6 @@ export default function ProjectsPage() {
     
     return matchesSearch && matchesCategory && matchesStatus
   })
-
-  if (loading) {
-    return (
-      <div style={styles.loadingContainer}>
-        <div style={styles.spinner}></div>
-        <p style={styles.loadingText}>Projeler yükleniyor...</p>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div style={styles.errorContainer}>
-        <h1 style={styles.errorTitle}>⚠️ Hata</h1>
-        <p style={styles.errorText}>{error}</p>
-      </div>
-    )
-  }
 
   return (
     <>
@@ -265,6 +242,17 @@ export default function ProjectsPage() {
                         animationDelay: `${index * 0.1}s`
                       }}
                     >
+                      {/* Cover Image */}
+                      {project.coverImage && getImageUrl(project.coverImage) && (
+                        <div style={styles.cardImageContainer}>
+                          <img 
+                            src={getImageUrl(project.coverImage)!} 
+                            alt={project.title}
+                            style={styles.cardImage}
+                          />
+                        </div>
+                      )}
+                      
                       <div style={styles.cardHeader}>
                         <span style={{...styles.cardBadge, backgroundColor: status.bg}}>
                           {status.text}
@@ -705,19 +693,33 @@ const styles = {
   projectCard: {
     backgroundColor: 'white',
     borderRadius: '12px',
-    padding: '25px',
+    padding: '0',
     boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
     border: '1px solid #e5e7eb',
     transition: 'all 0.3s',
     cursor: 'pointer',
     animation: 'fadeInUp 0.6s ease-out forwards',
     opacity: 0,
+    overflow: 'hidden',
+  },
+  cardImageContainer: {
+    width: '100%',
+    height: '200px',
+    overflow: 'hidden',
+    backgroundColor: '#f3f4f6',
+  },
+  cardImage: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover' as const,
+    transition: 'transform 0.3s',
   },
   cardHeader: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: '15px',
+    padding: '20px 25px 0',
   },
   cardBadge: {
     backgroundColor: '#10b981',
@@ -738,12 +740,14 @@ const styles = {
     color: '#1f2937',
     marginBottom: '12px',
     lineHeight: '1.4',
+    padding: '0 25px',
   },
   cardExcerpt: {
     fontSize: '15px',
     color: '#6b7280',
     lineHeight: '1.6',
     marginBottom: '15px',
+    padding: '0 25px',
   },
   cardFooter: {
     display: 'flex',
@@ -752,6 +756,7 @@ const styles = {
     paddingTop: '15px',
     borderTop: '1px solid #f3f4f6',
     marginBottom: '15px',
+    padding: '15px 25px',
   },
   cardMeta: {
     display: 'flex',
@@ -769,6 +774,7 @@ const styles = {
   },
   cardProgress: {
     marginTop: '15px',
+    padding: '0 25px 20px',
   },
   progressBar: {
     height: '6px',
@@ -914,6 +920,7 @@ const styles = {
     padding: '12px',
     backgroundColor: '#f9fafb',
     borderRadius: '8px',
+    margin: '0 25px 15px',
   },
   infoItem: {
     display: 'flex',
@@ -939,4 +946,34 @@ const styles = {
     fontWeight: '600' as const,
     marginTop: '15px',
   },
+}
+
+// Server-side data fetching (SSG with ISR)
+export const getStaticProps: GetStaticProps<ProjectsPageProps> = async () => {
+  try {
+    const [projectsRes, categoriesRes] = await Promise.all([
+      fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?populate=*&sort=publishedAt:desc`),
+      fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories`)
+    ])
+
+    const projectsData = await projectsRes.json()
+    const categoriesData = await categoriesRes.json()
+
+    return {
+      props: {
+        projects: projectsData.data || [],
+        categories: categoriesData.data || [],
+      },
+      revalidate: 60, // Revalidate every 60 seconds (ISR)
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error)
+    return {
+      props: {
+        projects: [],
+        categories: [],
+      },
+      revalidate: 60,
+    }
+  }
 }

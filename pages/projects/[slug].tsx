@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { GetStaticProps, GetStaticPaths } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 
@@ -21,57 +21,26 @@ interface Project {
   location?: string
   readTime?: number
   publishedAt: string
+  coverImage?: {
+    url: string
+    formats?: any
+  }
 }
 
-export default function ProjectDetailPage() {
-  const router = useRouter()
-  const { slug } = router.query
-  const [project, setProject] = useState<Project | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+// Helper function to get image URL
+const getImageUrl = (image: any) => {
+  if (!image) return null
+  const url = image.url || image.formats?.large?.url || image.formats?.medium?.url || image.formats?.small?.url
+  if (!url) return null
+  return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`
+}
+
+interface ProjectDetailPageProps {
+  project: Project | null
+}
+
+export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    if (!slug) return
-
-    // Try slug first, fallback to documentId
-    const fetchUrl = slug.includes('-') 
-      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[slug][$eq]=${slug}&populate=*`
-      : `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[documentId][$eq]=${slug}&populate=*`
-
-    fetch(fetchUrl)
-      .then(res => res.json())
-      .then(data => {
-        console.log('Project Detail:', data)
-        if (data.data && data.data.length > 0) {
-          setProject(data.data[0])
-        }
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Error:', err)
-        setError(err.message)
-        setLoading(false)
-      })
-  }, [slug])
-
-  if (loading) {
-    return (
-      <div style={styles.loadingContainer}>
-        <div style={styles.spinner}></div>
-        <p style={styles.loadingText}>Proje yükleniyor...</p>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div style={styles.errorContainer}>
-        <h1 style={styles.errorTitle}>⚠️ Hata</h1>
-        <p style={styles.errorText}>{error}</p>
-      </div>
-    )
-  }
 
   if (!project) {
     return (
@@ -119,6 +88,17 @@ export default function ProjectDetailPage() {
 
             {/* Project Title */}
             <h1 style={styles.projectTitle}>{project.title}</h1>
+
+            {/* Cover Image */}
+            {project.coverImage && getImageUrl(project.coverImage) && (
+              <div style={styles.coverImageContainer}>
+                <img 
+                  src={getImageUrl(project.coverImage)!} 
+                  alt={project.title}
+                  style={styles.coverImage}
+                />
+              </div>
+            )}
 
             {/* Project Meta */}
             <div style={styles.projectMeta}>
@@ -358,6 +338,21 @@ const styles = {
     minHeight: '100vh',
     backgroundColor: '#fafafa',
     fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  },
+  coverImageContainer: {
+    width: '100%',
+    maxWidth: '900px',
+    height: 'auto',
+    margin: '30px auto',
+    borderRadius: '16px',
+    overflow: 'hidden',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+  },
+  coverImage: {
+    width: '100%',
+    height: 'auto',
+    display: 'block',
+    objectFit: 'cover' as const,
   },
   loadingContainer: {
     display: 'flex',
@@ -744,4 +739,60 @@ const styles = {
     margin: '0 auto',
     padding: '30px 20px 0',
   },
+}
+
+// Generate static paths for all projects
+export const getStaticPaths: GetStaticPaths = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects`)
+    const data = await res.json()
+    
+    const paths = (data.data || []).map((project: Project) => ({
+      params: { slug: project.slug || project.documentId },
+    }))
+
+    return {
+      paths,
+      fallback: 'blocking', // Generate pages on-demand if not pre-built
+    }
+  } catch (error) {
+    console.error('Error fetching paths:', error)
+    return {
+      paths: [],
+      fallback: 'blocking',
+    }
+  }
+}
+
+// Fetch project data at build time
+export const getStaticProps: GetStaticProps<ProjectDetailPageProps> = async ({ params }) => {
+  try {
+    const slug = params?.slug as string
+    
+    // Try slug first, fallback to documentId
+    const fetchUrl = slug.includes('-') 
+      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[slug][$eq]=${slug}&populate=*`
+      : `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/projects?filters[documentId][$eq]=${slug}&populate=*`
+
+    const res = await fetch(fetchUrl)
+    const data = await res.json()
+
+    if (!data.data || data.data.length === 0) {
+      return {
+        notFound: true,
+      }
+    }
+
+    return {
+      props: {
+        project: data.data[0],
+      },
+      revalidate: 60, // Revalidate every 60 seconds
+    }
+  } catch (error) {
+    console.error('Error fetching project:', error)
+    return {
+      notFound: true,
+    }
+  }
 }

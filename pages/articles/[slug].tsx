@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { GetStaticProps, GetStaticPaths } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 
@@ -12,57 +12,26 @@ interface Article {
   content: string
   readTime?: number
   publishedAt: string
+  coverImage?: {
+    url: string
+    formats?: any
+  }
 }
 
-export default function ArticleDetailPage() {
-  const router = useRouter()
-  const { slug } = router.query
-  const [article, setArticle] = useState<Article | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+// Helper function to get image URL
+const getImageUrl = (image: any) => {
+  if (!image) return null
+  const url = image.url || image.formats?.large?.url || image.formats?.medium?.url || image.formats?.small?.url
+  if (!url) return null
+  return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`
+}
+
+interface ArticleDetailPageProps {
+  article: Article | null
+}
+
+export default function ArticleDetailPage({ article }: ArticleDetailPageProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    if (!slug) return
-
-    // Try slug first, fallback to documentId
-    const fetchUrl = slug.includes('-') 
-      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles?filters[slug][$eq]=${slug}&populate=*`
-      : `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles?filters[documentId][$eq]=${slug}&populate=*`
-
-    fetch(fetchUrl)
-      .then(res => res.json())
-      .then(data => {
-        console.log('Article Detail:', data)
-        if (data.data && data.data.length > 0) {
-          setArticle(data.data[0])
-        }
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Error:', err)
-        setError(err.message)
-        setLoading(false)
-      })
-  }, [slug])
-
-  if (loading) {
-    return (
-      <div style={styles.loadingContainer}>
-        <div style={styles.spinner}></div>
-        <p style={styles.loadingText}>Makale yükleniyor...</p>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div style={styles.errorContainer}>
-        <h1 style={styles.errorTitle}>⚠️ Hata</h1>
-        <p style={styles.errorText}>{error}</p>
-      </div>
-    )
-  }
 
   if (!article) {
     return (
@@ -110,6 +79,17 @@ export default function ArticleDetailPage() {
 
             {/* Article Title */}
             <h1 style={styles.articleTitle}>{article.title}</h1>
+
+            {/* Cover Image */}
+            {article.coverImage && getImageUrl(article.coverImage) && (
+              <div style={styles.coverImageContainer}>
+                <img 
+                  src={getImageUrl(article.coverImage)!} 
+                  alt={article.title}
+                  style={styles.coverImage}
+                />
+              </div>
+            )}
 
             {/* Article Meta */}
             <div style={styles.articleMeta}>
@@ -301,6 +281,21 @@ const styles = {
     minHeight: '100vh',
     backgroundColor: '#fafafa',
     fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  },
+  coverImageContainer: {
+    width: '100%',
+    maxWidth: '900px',
+    height: 'auto',
+    margin: '30px auto',
+    borderRadius: '16px',
+    overflow: 'hidden',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+  },
+  coverImage: {
+    width: '100%',
+    height: 'auto',
+    display: 'block',
+    objectFit: 'cover' as const,
   },
   loadingContainer: {
     display: 'flex',
@@ -607,4 +602,59 @@ const styles = {
     margin: '0 auto',
     padding: '30px 20px 0',
   },
+}
+
+// Generate static paths for all articles
+export const getStaticPaths: GetStaticPaths = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles`)
+    const data = await res.json()
+    
+    const paths = (data.data || []).map((article: Article) => ({
+      params: { slug: article.slug || article.documentId },
+    }))
+
+    return {
+      paths,
+      fallback: 'blocking',
+    }
+  } catch (error) {
+    console.error('Error fetching article paths:', error)
+    return {
+      paths: [],
+      fallback: 'blocking',
+    }
+  }
+}
+
+// Fetch article data at build time
+export const getStaticProps: GetStaticProps<ArticleDetailPageProps> = async ({ params }) => {
+  try {
+    const slug = params?.slug as string
+    
+    const fetchUrl = slug.includes('-') 
+      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles?filters[slug][$eq]=${slug}&populate=*`
+      : `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/articles?filters[documentId][$eq]=${slug}&populate=*`
+
+    const res = await fetch(fetchUrl)
+    const data = await res.json()
+
+    if (!data.data || data.data.length === 0) {
+      return {
+        notFound: true,
+      }
+    }
+
+    return {
+      props: {
+        article: data.data[0],
+      },
+      revalidate: 60,
+    }
+  } catch (error) {
+    console.error('Error fetching article:', error)
+    return {
+      notFound: true,
+    }
+  }
 }

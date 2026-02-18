@@ -84,6 +84,11 @@ html {
 
 /* Small mobile screens (500px and below) */
 @media (max-width: 500px) {
+  /* Hide home link in mobile menu to save space */
+  nav[style*="mobileNav"] a[href="/"] {
+    display: none !important;
+  }
+
   /* Further reduce logo size */
   a[style*="logo"] {
     font-size: 11px !important;

@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 
@@ -10,47 +11,12 @@ interface PageData {
   slug: string
 }
 
-export default function AboutPage() {
-  const [page, setPage] = useState<PageData | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+interface AboutPageProps {
+  page: PageData | null
+}
+
+export default function AboutPage({ page }: AboutPageProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    // Strapi'den "about" slug'ına sahip page'i getir
-    fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/pages?filters[slug][$eq]=about&populate=*`)
-      .then(res => res.json())
-      .then(data => {
-        console.log('About Page Response:', data)
-        if (data.data && data.data.length > 0) {
-          setPage(data.data[0])
-        }
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Error:', err)
-        setError(err.message)
-        setLoading(false)
-      })
-  }, [])
-
-  if (loading) {
-    return (
-      <div style={styles.loadingContainer}>
-        <div style={styles.spinner}></div>
-        <p style={styles.loadingText}>Sayfa yükleniyor...</p>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div style={styles.errorContainer}>
-        <h1 style={styles.errorTitle}>⚠️ Hata</h1>
-        <p style={styles.errorText}>{error}</p>
-      </div>
-    )
-  }
 
   if (!page) {
     return (
@@ -546,4 +512,27 @@ const styles = {
     color: '#9ca3af',
     fontSize: '14px',
   },
+}
+
+// Server-side data fetching (SSG with ISR)
+export const getStaticProps: GetStaticProps<AboutPageProps> = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/pages?filters[slug][$eq]=about`)
+    const data = await res.json()
+
+    return {
+      props: {
+        page: data.data && data.data.length > 0 ? data.data[0] : null,
+      },
+      revalidate: 300, // Revalidate every 5 minutes (ISR)
+    }
+  } catch (error) {
+    console.error('Error fetching about page:', error)
+    return {
+      props: {
+        page: null,
+      },
+      revalidate: 300,
+    }
+  }
 }

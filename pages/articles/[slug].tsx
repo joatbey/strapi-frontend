@@ -12,7 +12,7 @@ interface Article {
   content: string
   readTime?: number
   publishedAt: string
-  coverImage?: {
+  image?: {
     url: string
     formats?: any
   }
@@ -81,10 +81,10 @@ export default function ArticleDetailPage({ article }: ArticleDetailPageProps) {
             <h1 style={styles.articleTitle}>{article.title}</h1>
 
             {/* Cover Image */}
-            {article.coverImage && getImageUrl(article.coverImage) && (
+            {article.image && getImageUrl(article.image) && (
               <div style={styles.coverImageContainer}>
                 <img 
-                  src={getImageUrl(article.coverImage)!} 
+                  src={getImageUrl(article.image)!} 
                   alt={article.title}
                   style={styles.coverImage}
                 />

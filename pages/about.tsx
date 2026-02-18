@@ -324,7 +324,7 @@ const styles = {
     height: '70px',
   },
   logo: {
-    fontSize: '20px',
+    fontSize: '18px',
     fontWeight: '800' as const,
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     WebkitBackgroundClip: 'text',

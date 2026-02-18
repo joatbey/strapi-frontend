@@ -439,7 +439,7 @@ const styles = {
     padding: '0 20px',
   },
   logo: {
-    fontSize: '20px',
+    fontSize: '18px',
     fontWeight: '800' as const,
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     WebkitBackgroundClip: 'text',

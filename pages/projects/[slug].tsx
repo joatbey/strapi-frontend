@@ -274,9 +274,6 @@ function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean
             <Link href="/projects" style={styles.navLink}>Projeler</Link>
             <Link href="/about" style={styles.navLink}>Hakkımızda</Link>
             <Link href="/contact" style={styles.navLink}>İletişim</Link>
-            <a href={`${process.env.NEXT_PUBLIC_STRAPI_URL}/admin`} target="_blank" style={styles.adminLink}>
-              Admin Panel →
-            </a>
           </nav>
         </div>
 
@@ -287,9 +284,6 @@ function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean
             <Link href="/projects" style={styles.mobileNavLink}>Projeler</Link>
             <Link href="/about" style={styles.mobileNavLink}>Hakkımızda</Link>
             <Link href="/contact" style={styles.mobileNavLink}>İletişim</Link>
-            <a href={`${process.env.NEXT_PUBLIC_STRAPI_URL}/admin`} target="_blank" style={styles.mobileAdminLink}>
-              Admin Panel →
-            </a>
           </nav>
         )}
       </div>
@@ -478,33 +472,12 @@ const styles = {
     fontWeight: '500' as const,
     padding: '10px 0',
   } as React.CSSProperties,
-  mobileAdminLink: {
-    backgroundColor: '#2563eb',
-    color: 'white',
-    padding: '12px 16px',
-    borderRadius: '6px',
-    textDecoration: 'none',
-    fontSize: '14px',
-    fontWeight: '600' as const,
-    textAlign: 'center' as const,
-    display: 'block',
-  } as React.CSSProperties,
   navLink: {
     color: '#6b7280',
     textDecoration: 'none',
     fontSize: '15px',
     fontWeight: '500' as const,
     transition: 'color 0.2s',
-  },
-  adminLink: {
-    backgroundColor: '#2563eb',
-    color: 'white',
-    padding: '8px 16px',
-    borderRadius: '6px',
-    textDecoration: 'none',
-    fontSize: '14px',
-    fontWeight: '600' as const,
-    transition: 'all 0.2s',
   },
   project: {
     padding: '40px 0 80px',

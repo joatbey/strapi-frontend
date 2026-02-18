@@ -46,3 +46,57 @@ a[style*="navLink"]:hover {
 html {
   scroll-behavior: smooth;
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  /* Show mobile menu button */
+  button[style*="mobileMenuButton"] {
+    display: block !important;
+  }
+
+  /* Hide desktop navigation */
+  nav[style*="navLinks"] {
+    display: none !important;
+  }
+
+  /* Mobile nav styles */
+  nav[style*="mobileNav"] {
+    display: flex !important;
+  }
+
+  /* Adjust logo size for mobile */
+  a[style*="logo"] {
+    font-size: 12px !important;
+  }
+
+  /* Hide admin panel buttons on mobile */
+  a[style*="adminLink"],
+  a[style*="mobileAdminLink"] {
+    display: none !important;
+  }
+
+  /* Adjust hero title for mobile */
+  h2[style*="heroTitle"] {
+    font-size: 32px !important;
+  }
+
+  /* Adjust section titles */
+  h3[style*="sectionTitle"] {
+    font-size: 24px !important;
+  }
+
+  /* Make grids single column on mobile */
+  div[style*="grid"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Adjust footer grid */
+  div[style*="footerContent"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Stats responsive */
+  div[style*="heroStats"] {
+    gap: 30px !important;
+  }
+}

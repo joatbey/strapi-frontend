@@ -36,6 +36,7 @@ export default function ProjectsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     Promise.all([
@@ -95,7 +96,7 @@ export default function ProjectsPage() {
       </Head>
 
       <div style={styles.page}>
-        <Header />
+        <Header mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
 
         {/* Page Header */}
         <section style={styles.pageHeader}>
@@ -369,22 +370,40 @@ export default function ProjectsPage() {
 }
 
 // Reusable Header Component
-function Header() {
+function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean, setMobileMenuOpen: (open: boolean) => void }) {
   return (
     <header style={styles.header}>
       <div style={styles.container}>
         <div style={styles.nav}>
-          <Link href="/" style={styles.logo}>🏔️ Zirve Dayanışma Ağı</Link>
+          <Link href="/" style={styles.logo}>🏔️</Link>
+          
+          {/* Mobile Menu Button */}
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            style={styles.mobileMenuButton}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? '✕' : '☰'}
+          </button>
+
+          {/* Desktop Navigation */}
           <nav style={styles.navLinks}>
             <Link href="/" style={styles.navLink}>Ana Sayfa</Link>
             <Link href="/projects" style={styles.navLinkActive}>Projeler</Link>
             <Link href="/about" style={styles.navLink}>Hakkımızda</Link>
             <Link href="/contact" style={styles.navLink}>İletişim</Link>
-            <a href="http://localhost:1337/admin" target="_blank" style={styles.adminLink}>
-              Admin Panel →
-            </a>
           </nav>
         </div>
+
+        {/* Mobile Navigation */}
+        {mobileMenuOpen && (
+          <nav style={styles.mobileNav}>
+            <Link href="/" style={styles.mobileNavLink}>Ana Sayfa</Link>
+            <Link href="/projects" style={{...styles.mobileNavLink, fontWeight: '600', color: '#2563eb'}}>Projeler</Link>
+            <Link href="/about" style={styles.mobileNavLink}>Hakkımızda</Link>
+            <Link href="/contact" style={styles.mobileNavLink}>İletişim</Link>
+          </nav>
+        )}
       </div>
     </header>
   )
@@ -491,16 +510,50 @@ const styles = {
     height: '70px',
   },
   logo: {
-    fontSize: '24px',
+    fontSize: '20px',
     fontWeight: '800' as const,
     color: '#1f2937',
     textDecoration: 'none',
-  },
+  } as React.CSSProperties,
+  mobileMenuButton: {
+    display: 'none',
+    fontSize: '28px',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: '#1f2937',
+    padding: '5px',
+  } as React.CSSProperties,
   navLinks: {
     display: 'flex',
     gap: '30px',
     alignItems: 'center',
-  },
+  } as React.CSSProperties,
+  mobileNav: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: '15px',
+    padding: '20px 0',
+    borderTop: '1px solid #e5e7eb',
+  } as React.CSSProperties,
+  mobileNavLink: {
+    color: '#6b7280',
+    textDecoration: 'none',
+    fontSize: '16px',
+    fontWeight: '500' as const,
+    padding: '10px 0',
+  } as React.CSSProperties,
+  mobileAdminLink: {
+    backgroundColor: '#2563eb',
+    color: 'white',
+    padding: '12px 16px',
+    borderRadius: '6px',
+    textDecoration: 'none',
+    fontSize: '14px',
+    fontWeight: '600' as const,
+    textAlign: 'center' as const,
+    display: 'block',
+  } as React.CSSProperties,
   navLink: {
     color: '#6b7280',
     textDecoration: 'none',
@@ -533,15 +586,16 @@ const styles = {
     textAlign: 'center' as const,
   },
   pageTitle: {
-    fontSize: '48px',
+    fontSize: '36px',
     fontWeight: '800' as const,
     marginBottom: '15px',
-  },
+  } as React.CSSProperties,
   pageSubtitle: {
-    fontSize: '18px',
+    fontSize: '16px',
     opacity: 0.95,
     marginBottom: '20px',
-  },
+    padding: '0 20px',
+  } as React.CSSProperties,
   breadcrumb: {
     display: 'flex',
     justifyContent: 'center',
@@ -568,9 +622,9 @@ const styles = {
   },
   statsGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '20px',
-  },
+    gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+    gap: '15px',
+  } as React.CSSProperties,
   statCard: {
     textAlign: 'center' as const,
     padding: '20px',
@@ -645,9 +699,9 @@ const styles = {
   },
   projectsGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
-    gap: '30px',
-  },
+    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+    gap: '20px',
+  } as React.CSSProperties,
   projectCard: {
     backgroundColor: 'white',
     borderRadius: '12px',
@@ -780,17 +834,18 @@ const styles = {
     textAlign: 'center' as const,
   },
   ctaTitle: {
-    fontSize: '36px',
+    fontSize: '28px',
     fontWeight: '700' as const,
     marginBottom: '15px',
-  },
+  } as React.CSSProperties,
   ctaText: {
-    fontSize: '18px',
+    fontSize: '16px',
     opacity: 0.95,
     marginBottom: '30px',
     maxWidth: '600px',
     margin: '0 auto 30px',
-  },
+    padding: '0 20px',
+  } as React.CSSProperties,
   ctaButtons: {
     display: 'flex',
     gap: '15px',

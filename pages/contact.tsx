@@ -12,6 +12,7 @@ export default function ContactPage() {
   })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -85,7 +86,7 @@ export default function ContactPage() {
       </Head>
 
       <div style={styles.page}>
-        <Header />
+        <Header mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
 
         {/* Page Header */}
         <section style={styles.pageHeader}>
@@ -326,22 +327,40 @@ export default function ContactPage() {
 }
 
 // Reusable Header Component
-function Header() {
+function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean, setMobileMenuOpen: (open: boolean) => void }) {
   return (
     <header style={styles.header}>
       <div style={styles.container}>
         <div style={styles.nav}>
-          <Link href="/" style={styles.logo}>🏔️ Zirve Dayanışma Ağı</Link>
+          <Link href="/" style={styles.logo}>🏔️</Link>
+          
+          {/* Mobile Menu Button */}
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            style={styles.mobileMenuButton}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? '✕' : '☰'}
+          </button>
+
+          {/* Desktop Navigation */}
           <nav style={styles.navLinks}>
             <Link href="/" style={styles.navLink}>Ana Sayfa</Link>
-            <Link href="/#projeler" style={styles.navLink}>Projeler</Link>
+            <Link href="/projects" style={styles.navLink}>Projeler</Link>
             <Link href="/about" style={styles.navLink}>Hakkımızda</Link>
             <Link href="/contact" style={styles.navLinkActive}>İletişim</Link>
-            <a href="https://loved-book-43118cd8ad.strapiapp.com/admin/" target="_blank" style={styles.adminLink}>
-              Admin Panel →
-            </a>
           </nav>
         </div>
+
+        {/* Mobile Navigation */}
+        {mobileMenuOpen && (
+          <nav style={styles.mobileNav}>
+            <Link href="/" style={styles.mobileNavLink}>Ana Sayfa</Link>
+            <Link href="/projects" style={styles.mobileNavLink}>Projeler</Link>
+            <Link href="/about" style={styles.mobileNavLink}>Hakkımızda</Link>
+            <Link href="/contact" style={{...styles.mobileNavLink, fontWeight: '600', color: '#2563eb'}}>İletişim</Link>
+          </nav>
+        )}
       </div>
     </header>
   )
@@ -409,16 +428,50 @@ const styles = {
     height: '70px',
   },
   logo: {
-    fontSize: '24px',
+    fontSize: '20px',
     fontWeight: '800' as const,
     color: '#1f2937',
     textDecoration: 'none',
-  },
+  } as React.CSSProperties,
+  mobileMenuButton: {
+    display: 'none',
+    fontSize: '28px',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: '#1f2937',
+    padding: '5px',
+  } as React.CSSProperties,
   navLinks: {
     display: 'flex',
     gap: '30px',
     alignItems: 'center',
-  },
+  } as React.CSSProperties,
+  mobileNav: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: '15px',
+    padding: '20px 0',
+    borderTop: '1px solid #e5e7eb',
+  } as React.CSSProperties,
+  mobileNavLink: {
+    color: '#6b7280',
+    textDecoration: 'none',
+    fontSize: '16px',
+    fontWeight: '500' as const,
+    padding: '10px 0',
+  } as React.CSSProperties,
+  mobileAdminLink: {
+    backgroundColor: '#2563eb',
+    color: 'white',
+    padding: '12px 16px',
+    borderRadius: '6px',
+    textDecoration: 'none',
+    fontSize: '14px',
+    fontWeight: '600' as const,
+    textAlign: 'center' as const,
+    display: 'block',
+  } as React.CSSProperties,
   navLink: {
     color: '#6b7280',
     textDecoration: 'none',

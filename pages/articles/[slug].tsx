@@ -20,6 +20,7 @@ export default function ArticleDetailPage() {
   const [article, setArticle] = useState<Article | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     if (!slug) return
@@ -66,7 +67,7 @@ export default function ArticleDetailPage() {
   if (!article) {
     return (
       <div style={styles.page}>
-        <Header />
+        <Header mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
         <div style={styles.notFoundContainer}>
           <div style={styles.notFoundIcon}>📄</div>
           <h1 style={styles.notFoundTitle}>Makale Bulunamadı</h1>
@@ -93,7 +94,7 @@ export default function ArticleDetailPage() {
       </Head>
 
       <div style={styles.page}>
-        <Header />
+        <Header mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
 
         {/* Article Header */}
         <article style={styles.article}>
@@ -214,22 +215,46 @@ export default function ArticleDetailPage() {
 }
 
 // Reusable Header Component
-function Header() {
+function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen: boolean, setMobileMenuOpen: (open: boolean) => void }) {
   return (
     <header style={styles.header}>
       <div style={styles.container}>
         <div style={styles.nav}>
-          <Link href="/" style={styles.logo}>🏔️ Zirve Dayanışma Ağı</Link>
+          <Link href="/" style={styles.logo}>🏔️</Link>
+          
+          {/* Mobile Menu Button */}
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            style={styles.mobileMenuButton}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? '✕' : '☰'}
+          </button>
+
+          {/* Desktop Navigation */}
           <nav style={styles.navLinks}>
             <Link href="/" style={styles.navLink}>Ana Sayfa</Link>
             <Link href="/projects" style={styles.navLink}>Projeler</Link>
             <Link href="/about" style={styles.navLink}>Hakkımızda</Link>
             <Link href="/contact" style={styles.navLink}>İletişim</Link>
-            <a href="http://localhost:1337/admin" target="_blank" style={styles.adminLink}>
+            <a href={`${process.env.NEXT_PUBLIC_STRAPI_URL}/admin`} target="_blank" style={styles.adminLink}>
               Admin Panel →
             </a>
           </nav>
         </div>
+
+        {/* Mobile Navigation */}
+        {mobileMenuOpen && (
+          <nav style={styles.mobileNav}>
+            <Link href="/" style={styles.mobileNavLink}>Ana Sayfa</Link>
+            <Link href="/projects" style={styles.mobileNavLink}>Projeler</Link>
+            <Link href="/about" style={styles.mobileNavLink}>Hakkımızda</Link>
+            <Link href="/contact" style={styles.mobileNavLink}>İletişim</Link>
+            <a href={`${process.env.NEXT_PUBLIC_STRAPI_URL}/admin`} target="_blank" style={styles.mobileAdminLink}>
+              Admin Panel →
+            </a>
+          </nav>
+        )}
       </div>
     </header>
   )
@@ -368,16 +393,50 @@ const styles = {
     padding: '0 20px',
   },
   logo: {
-    fontSize: '24px',
+    fontSize: '20px',
     fontWeight: '800' as const,
     color: '#1f2937',
     textDecoration: 'none',
-  },
+  } as React.CSSProperties,
+  mobileMenuButton: {
+    display: 'none',
+    fontSize: '28px',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: '#1f2937',
+    padding: '5px',
+  } as React.CSSProperties,
   navLinks: {
     display: 'flex',
     gap: '30px',
     alignItems: 'center',
-  },
+  } as React.CSSProperties,
+  mobileNav: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: '15px',
+    padding: '20px 0',
+    borderTop: '1px solid #e5e7eb',
+  } as React.CSSProperties,
+  mobileNavLink: {
+    color: '#6b7280',
+    textDecoration: 'none',
+    fontSize: '16px',
+    fontWeight: '500' as const,
+    padding: '10px 0',
+  } as React.CSSProperties,
+  mobileAdminLink: {
+    backgroundColor: '#2563eb',
+    color: 'white',
+    padding: '12px 16px',
+    borderRadius: '6px',
+    textDecoration: 'none',
+    fontSize: '14px',
+    fontWeight: '600' as const,
+    textAlign: 'center' as const,
+    display: 'block',
+  } as React.CSSProperties,
   navLink: {
     color: '#6b7280',
     textDecoration: 'none',
